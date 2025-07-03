@@ -1,7 +1,7 @@
 // Supabase client initialization (REPLACE WITH YOUR ACTUAL SUPABASE DETAILS)
 const SUPABASE_URL = "https://nmtyvrrcvkbcdlhpvcnv.supabase.co";
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjA5OTAsImV4cCI6MjA2NzA5Njk5MH0.ATxRHHHv3gjTLecOaDDdJJ81k3z3UfuI0kBvvpBPbSU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjA5OTAsImV4cCI6MjA2NzA5Njk5MH0.ATxRHHHv3gjTLecOaDDdJJ81k3z3UfuI0kBvvpBPbSUeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTUyMDk5MCwiZXhwIjoyMDY3MDk2OTkwfQ.Pav2Tk4Glp9GbHUt7WUgzSB9dapPDYVA5MzlYYkz86w";
 const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // --- Global Helper Functions ---
@@ -30,40 +30,62 @@ function formatDateTime(dateTimeString) {
   });
 }
 
+// Function to toggle form visibility
+function toggleFormVisibility(formContainerId) {
+  const container = document.getElementById(formContainerId);
+  if (container) {
+    container.classList.toggle("hidden");
+  }
+}
+
 // --- Fetch and Display Functions for each section ---
 
 // Fetch Summary Data (for home.html)
 async function fetchSummary() {
-  const { count: userCount } = await supabase
-    .from("users")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-users").textContent = userCount || 0;
+  // Check if elements exist before trying to update them
+  const summaryUsers = document.getElementById("summary-users");
+  const summaryDogs = document.getElementById("summary-dogs");
+  const summaryProducts = document.getElementById("summary-products");
+  const summaryDoctors = document.getElementById("summary-doctors");
+  const summaryAppointments = document.getElementById("summary-appointments");
+  const summaryOrders = document.getElementById("summary-orders");
 
-  const { count: dogCount } = await supabase
-    .from("dogs")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-dogs").textContent = dogCount || 0;
-
-  const { count: productCount } = await supabase
-    .from("products")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-products").textContent = productCount || 0;
-
-  const { count: doctorCount } = await supabase
-    .from("doctors")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-doctors").textContent = doctorCount || 0;
-
-  const { count: appointmentCount } = await supabase
-    .from("appointments")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-appointments").textContent =
-    appointmentCount || 0;
-
-  const { count: orderCount } = await supabase
-    .from("orders")
-    .select("*", { count: "exact", head: true });
-  document.getElementById("summary-orders").textContent = orderCount || 0;
+  if (summaryUsers) {
+    const { count: userCount } = await supabase
+      .from("users")
+      .select("*", { count: "exact", head: true });
+    summaryUsers.textContent = userCount || 0;
+  }
+  if (summaryDogs) {
+    const { count: dogCount } = await supabase
+      .from("dogs")
+      .select("*", { count: "exact", head: true });
+    summaryDogs.textContent = dogCount || 0;
+  }
+  if (summaryProducts) {
+    const { count: productCount } = await supabase
+      .from("products")
+      .select("*", { count: "exact", head: true });
+    summaryProducts.textContent = productCount || 0;
+  }
+  if (summaryDoctors) {
+    const { count: doctorCount } = await supabase
+      .from("doctors")
+      .select("*", { count: "exact", head: true });
+    summaryDoctors.textContent = doctorCount || 0;
+  }
+  if (summaryAppointments) {
+    const { count: appointmentCount } = await supabase
+      .from("appointments")
+      .select("*", { count: "exact", head: true });
+    summaryAppointments.textContent = appointmentCount || 0;
+  }
+  if (summaryOrders) {
+    const { count: orderCount } = await supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true });
+    summaryOrders.textContent = orderCount || 0;
+  }
 }
 
 // Fetch Dogs (for dogs.html)
@@ -324,9 +346,6 @@ async function fetchUsers() {
 
 // Fetch Orders (for orders.html)
 async function fetchOrders() {
-  // This example assumes a simplified 'orders' table.
-  // For actual Dog Adoption vs Product orders, you might need
-  // more complex joins or separate tables/views in Supabase.
   const { data: orders, error } = await supabase
     .from("orders")
     .select(
@@ -406,6 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Dog added successfully!");
         e.target.reset();
         fetchDogs(); // Refresh the list
+        toggleFormVisibility("add-dog-form-container"); // Hide form after submission
       }
     });
   }
@@ -430,6 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Product added successfully!");
         e.target.reset();
         fetchProducts(); // Refresh the list
+        toggleFormVisibility("add-product-form-container"); // Hide form after submission
       }
     });
   }
@@ -453,6 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Doctor added successfully!");
         e.target.reset();
         fetchDoctors(); // Refresh the list
+        toggleFormVisibility("add-doctor-form-container"); // Hide form after submission
       }
     });
   }
@@ -579,10 +601,11 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (currentPage === "medical.html") {
     fetchDoctors();
     fetchAppointments();
-  } else if (currentPage === "users.html") {
+  }
+  // No specific fetch for account.html as it's static content (for now)
+  else if (currentPage === "users.html") {
     fetchUsers();
   } else if (currentPage === "orders.html") {
     fetchOrders();
   }
-  // No specific fetch for account.html as it's static content (for now)
 });

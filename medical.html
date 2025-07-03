@@ -26,16 +26,27 @@
 
       <section id="medical" class="active">
         <div class="card">
-          <h2>Doctor Management</h2>
-          <form id="add-doctor-form">
-            <label>Name <input type="text" name="name" required /></label>
-            <label
-              >Specialty <input type="text" name="specialty" required
-            /></label>
-            <label>Phone <input type="tel" name="phone" /></label>
-            <label>Email <input type="email" name="email" /></label>
-            <button type="submit">Add Doctor</button>
-          </form>
+          <!-- Button to toggle form visibility -->
+          <button
+            class="toggle-form-button"
+            onclick="toggleFormVisibility('add-doctor-form-container')"
+          >
+            Add New Doctor
+          </button>
+
+          <!-- Form container, initially hidden -->
+          <div id="add-doctor-form-container" class="hidden">
+            <h2>Doctor Management</h2>
+            <form id="add-doctor-form">
+              <label>Name <input type="text" name="name" required /></label>
+              <label
+                >Specialty <input type="text" name="specialty" required
+              /></label>
+              <label>Phone <input type="tel" name="phone" /></label>
+              <label>Email <input type="email" name="email" /></label>
+              <button type="submit">Add Doctor</button>
+            </form>
+          </div>
           <div id="doctors-list"></div>
         </div>
         <div class="card">

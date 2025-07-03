@@ -26,59 +26,71 @@
 
       <section id="dogs" class="active">
         <div class="card">
-          <h2>Add New Dog</h2>
-          <form id="add-dog-form">
-            <label>Dog Name <input type="text" name="name" required /></label>
-            <label
-              >Dog Breed
-              <select name="breed" required>
-                <option value="">Select Breed</option>
-                <option value="Labrador">Labrador Retriever</option>
-                <option value="German Shepherd">German Shepherd</option>
-                <option value="Golden Retriever">Golden Retriever</option>
-                <option value="Bulldog">Bulldog</option>
-                <option value="Poodle">Poodle</option>
-                <option value="Beagle">Beagle</option>
-                <option value="Mixed Breed">Mixed Breed</option>
-                <option value="Other">Other</option>
-              </select>
-            </label>
-            <label
-              >Dog Year (Age) <input type="number" name="year" required min="0"
-            /></label>
-            <label
-              >Price (Adoption Fee in €)
-              <input type="number" name="price" step="0.01" required
-            /></label>
-            <label
-              >Gender
-              <input type="radio" name="gender" value="Male" required /> Male
-              <input type="radio" name="gender" value="Female" /> Female
-            </label>
-            <label
-              >Dog Type
-              <select name="type" required>
-                <option value="">Select Type</option>
-                <option value="Puppy">Puppy</option>
-                <option value="Small">Small</option>
-                <option value="Medium">Medium</option>
-                <option value="Large">Large</option>
-                <option value="Adult">Adult</option>
-                <option value="Senior">Senior</option>
-              </select>
-            </label>
-            <label
-              >Image URL
-              <input
-                type="url"
-                name="image"
-                placeholder="e.g., https://example.com/dog.jpg"
-            /></label>
-            <label
-              >Vaccine Date <input type="date" name="vaccine_date"
-            /></label>
-            <button type="submit">Add Dog</button>
-          </form>
+          <!-- Button to toggle form visibility -->
+          <button
+            class="toggle-form-button"
+            onclick="toggleFormVisibility('add-dog-form-container')"
+          >
+            Add New Dog
+          </button>
+
+          <!-- Form container, initially hidden -->
+          <div id="add-dog-form-container" class="hidden">
+            <h2>Add New Dog</h2>
+            <form id="add-dog-form">
+              <label>Dog Name <input type="text" name="name" required /></label>
+              <label
+                >Dog Breed
+                <select name="breed" required>
+                  <option value="">Select Breed</option>
+                  <option value="Labrador">Labrador Retriever</option>
+                  <option value="German Shepherd">German Shepherd</option>
+                  <option value="Golden Retriever">Golden Retriever</option>
+                  <option value="Bulldog">Bulldog</option>
+                  <option value="Poodle">Poodle</option>
+                  <option value="Beagle">Beagle</option>
+                  <option value="Mixed Breed">Mixed Breed</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label
+                >Dog Year (Age)
+                <input type="number" name="year" required min="0"
+              /></label>
+              <label
+                >Price (Adoption Fee in €)
+                <input type="number" name="price" step="0.01" required
+              /></label>
+              <label
+                >Gender
+                <input type="radio" name="gender" value="Male" required /> Male
+                <input type="radio" name="gender" value="Female" /> Female
+              </label>
+              <label
+                >Dog Type
+                <select name="type" required>
+                  <option value="">Select Type</option>
+                  <option value="Puppy">Puppy</option>
+                  <option value="Small">Small</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Large">Large</option>
+                  <option value="Adult">Adult</option>
+                  <option value="Senior">Senior</option>
+                </select>
+              </label>
+              <label
+                >Image URL
+                <input
+                  type="url"
+                  name="image"
+                  placeholder="e.g., https://example.com/dog.jpg"
+              /></label>
+              <label
+                >Vaccine Date <input type="date" name="vaccine_date"
+              /></label>
+              <button type="submit">Add Dog</button>
+            </form>
+          </div>
         </div>
         <div class="card">
           <h2>Available Dogs for Adoption</h2>
