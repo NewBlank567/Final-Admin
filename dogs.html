@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dog Adoption Page</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <a href="home.html">🏠 Home</a>
+      <a href="dogs.html" class="active-nav">🐶 Dog Adoption</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="medical.html">🩺 Medical</a>
+      <a href="users.html">👤 Users</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="accounts.html">⚙️ Account</a>
+    </nav>
+
+    <div class="main">
+      <header>
+        <h1>Dog Adoption Management</h1>
+      </header>
+
+      <section id="dogs" class="active">
+        <div class="card">
+          <h2>Add New Dog</h2>
+          <form id="add-dog-form">
+            <label>Dog Name <input type="text" name="name" required /></label>
+            <label
+              >Breed
+              <select name="breed">
+                <option>Labrador</option>
+                <option>German Shepherd</option>
+                <option>Beagle</option>
+                <option>Poodle</option>
+                <option>Bulldog</option>
+              </select>
+            </label>
+            <label
+              >Year (Birth) <input type="number" name="year" required
+            /></label>
+            <label>Price <input type="number" name="price" required /></label>
+            <label
+              >Gender
+              <select name="gender">
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </label>
+            <label
+              >Type
+              <select name="type">
+                <option>Small</option>
+                <option>Medium</option>
+                <option>Large</option>
+                <option>Puppy</option>
+              </select>
+            </label>
+            <label
+              >Vaccination Date <input type="date" name="vaccine_date"
+            /></label>
+            <label>Image URL <input type="text" name="image" /></label>
+            <button type="submit">Add Dog</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Available Dogs</h2>
+          <div id="dogs-list"></div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

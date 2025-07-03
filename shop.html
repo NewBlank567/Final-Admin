@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop Management</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <a href="home.html">🏠 Home</a>
+      <a href="dogs.html">🐶 Dog Adoption</a>
+      <a href="shop.html" class="active-nav">🛍️ Shop</a>
+      <a href="medical.html">🩺 Medical</a>
+      <a href="users.html">👤 Users</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="accounts.html">⚙️ Account</a>
+    </nav>
+
+    <div class="main">
+      <header>
+        <h1>Shop Management</h1>
+      </header>
+
+      <section id="shop" class="active">
+        <div class="card">
+          <h2>Add New Product</h2>
+          <form id="add-product-form">
+            <label
+              >Product Name <input type="text" name="name" required
+            /></label>
+            <label
+              >Category
+              <select name="category">
+                <option>Toy</option>
+                <option>Food</option>
+                <option>Accessories</option>
+                <option>Medicine</option>
+                <option>Grooming</option>
+              </select>
+            </label>
+            <label>Price <input type="number" name="price" required /></label>
+            <label>Description <input type="text" name="description" /></label>
+            <label>Image URL <input type="text" name="image" /></label>
+            <button type="submit">Add Product</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Available Products</h2>
+          <div id="products-list"></div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

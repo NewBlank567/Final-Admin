@@ -1,0 +1,73 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  display: flex;
+}
+header {
+  background-color: #333;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+nav {
+  background: #222;
+  color: white;
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 2em;
+}
+nav a {
+  display: block;
+  color: white;
+  padding: 1em;
+  text-decoration: none;
+}
+nav a:hover {
+  background-color: #555;
+}
+.main {
+  margin-left: 220px;
+  padding: 2em;
+  width: 100%;
+}
+section {
+  display: none;
+}
+section.active {
+  display: block;
+}
+.card {
+  background-color: white;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #eee;
+}
+form label {
+  display: block;
+  margin-top: 1em;
+}
+form input, form select, form button {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}

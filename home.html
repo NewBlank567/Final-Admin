@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dash Board</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <a href="home.html" class="active-nav">🏠 Home</a>
+      <a href="dogs.html">🐶 Dog Adoption</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="medical.html">🩺 Medical</a>
+      <a href="users.html">👤 Users</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="accounts.html">⚙️ Account</a>
+    </nav>
+
+    <div class="main">
+      <header>
+        <h1>Admin Dashboard</h1>
+      </header>
+
+      <section id="home" class="active">
+        <div class="card">
+          <h2>Summary</h2>
+          <p>Total Users: <span id="summary-users"></span></p>
+          <p>Total Dogs: <span id="summary-dogs"></span></p>
+          <p>Total Products: <span id="summary-products"></span></p>
+          <p>Total Doctors: <span id="summary-doctors"></span></p>
+          <p>Upcoming Appointments: <span id="summary-appointments"></span></p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

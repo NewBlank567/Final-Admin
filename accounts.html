@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Management</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <a href="home.html">🏠 Home</a>
+      <a href="dogs.html">🐶 Dog Adoption</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="medical.html">🩺 Medical</a>
+      <a href="users.html">👤 Users</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="accounts.html" class="active-nav">⚙️ Account</a>
+    </nav>
+
+    <div class="main">
+      <header>
+        <h1>Account Settings</h1>
+      </header>
+
+      <section id="account" class="active">
+        <div class="card">
+          <h2>Your Account</h2>
+          <p>This section is for managing administrator account settings.</p>
+          <button onclick="alert('Change Password UI here')">
+            Change Password
+          </button>
+          <button onclick="alert('Logout logic here')">Logout</button>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
