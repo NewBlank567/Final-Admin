@@ -1,42 +1,69 @@
-// Supabase client initialization (replace with your actual Supabase details)
+// Supabase client initialization (REPLACE WITH YOUR ACTUAL SUPABASE DETAILS)
 const SUPABASE_URL = "https://nmtyvrrcvkbcdlhpvcnv.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjA5OTAsImV4cCI6MjA2NzA5Njk5MH0.ATxRHHHv3gjTLecOaDDdJJ81k3z3UfuI0kBvvpBPbSU";
 const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-// --- Functions to fetch and display data ---
+
+// --- Global Helper Functions ---
+
+// Function to format date for display
+function formatDate(dateString) {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+// Function to format datetime for display
+function formatDateTime(dateTimeString) {
+  if (!dateTimeString) return "N/A";
+  const date = new Date(dateTimeString);
+  return date.toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+// --- Fetch and Display Functions for each section ---
 
 // Fetch Summary Data (for home.html)
 async function fetchSummary() {
   const { count: userCount } = await supabase
     .from("users")
     .select("*", { count: "exact", head: true });
-  const summaryUsers = document.getElementById("summary-users");
-  if (summaryUsers) summaryUsers.textContent = userCount || 0;
+  document.getElementById("summary-users").textContent = userCount || 0;
 
   const { count: dogCount } = await supabase
     .from("dogs")
     .select("*", { count: "exact", head: true });
-  const summaryDogs = document.getElementById("summary-dogs");
-  if (summaryDogs) summaryDogs.textContent = dogCount || 0;
+  document.getElementById("summary-dogs").textContent = dogCount || 0;
 
   const { count: productCount } = await supabase
     .from("products")
     .select("*", { count: "exact", head: true });
-  const summaryProducts = document.getElementById("summary-products");
-  if (summaryProducts) summaryProducts.textContent = productCount || 0;
+  document.getElementById("summary-products").textContent = productCount || 0;
 
   const { count: doctorCount } = await supabase
     .from("doctors")
     .select("*", { count: "exact", head: true });
-  const summaryDoctors = document.getElementById("summary-doctors");
-  if (summaryDoctors) summaryDoctors.textContent = doctorCount || 0;
+  document.getElementById("summary-doctors").textContent = doctorCount || 0;
 
   const { count: appointmentCount } = await supabase
     .from("appointments")
     .select("*", { count: "exact", head: true });
-  const summaryAppointments = document.getElementById("summary-appointments");
-  if (summaryAppointments)
-    summaryAppointments.textContent = appointmentCount || 0;
+  document.getElementById("summary-appointments").textContent =
+    appointmentCount || 0;
+
+  const { count: orderCount } = await supabase
+    .from("orders")
+    .select("*", { count: "exact", head: true });
+  document.getElementById("summary-orders").textContent = orderCount || 0;
 }
 
 // Fetch Dogs (for dogs.html)
@@ -47,9 +74,9 @@ async function fetchDogs() {
     return;
   }
   const dogsListDiv = document.getElementById("dogs-list");
-  if (!dogsListDiv) return; // Ensure element exists on the current page
+  if (!dogsListDiv) return;
 
-  dogsListDiv.innerHTML = ""; // Clear previous content
+  dogsListDiv.innerHTML = "";
   if (dogs.length === 0) {
     dogsListDiv.innerHTML += "<p>No dogs available for adoption.</p>";
     return;
@@ -58,10 +85,11 @@ async function fetchDogs() {
   table.innerHTML = `
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Breed</th>
         <th>Year</th>
-        <th>Price</th>
+        <th>Price (€)</th>
         <th>Gender</th>
         <th>Type</th>
         <th>Vaccine Date</th>
@@ -75,16 +103,17 @@ async function fetchDogs() {
   dogs.forEach((dog) => {
     const row = tbody.insertRow();
     row.innerHTML = `
+      <td>${dog.id}</td>
       <td>${dog.name}</td>
       <td>${dog.breed}</td>
       <td>${dog.year}</td>
-      <td>€${dog.price.toFixed(2)}</td>
+      <td>€${dog.price ? dog.price.toFixed(2) : "0.00"}</td>
       <td>${dog.gender}</td>
       <td>${dog.type}</td>
-      <td>${dog.vaccine_date || "N/A"}</td>
-      <td><img src="${dog.image || "https://via.placeholder.com/50"}" alt="${
-      dog.name
-    }" width="50"></td>
+      <td>${formatDate(dog.vaccine_date)}</td>
+      <td><img src="${
+        dog.image || "https://via.placeholder.com/60?text=No+Image"
+      }" alt="${dog.name}" width="60" height="60"></td>
       <td>
         <button onclick="editDog(${dog.id})">Edit</button>
         <button onclick="deleteDog(${dog.id})">Delete</button>
@@ -113,9 +142,10 @@ async function fetchProducts() {
   table.innerHTML = `
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Category</th>
-        <th>Price</th>
+        <th>Price (€)</th>
         <th>Description</th>
         <th>Image</th>
         <th>Actions</th>
@@ -127,13 +157,14 @@ async function fetchProducts() {
   products.forEach((product) => {
     const row = tbody.insertRow();
     row.innerHTML = `
+      <td>${product.id}</td>
       <td>${product.name}</td>
       <td>${product.category}</td>
-      <td>€${product.price.toFixed(2)}</td>
+      <td>€${product.price ? product.price.toFixed(2) : "0.00"}</td>
       <td>${product.description || "N/A"}</td>
       <td><img src="${
-        product.image || "https://via.placeholder.com/50"
-      }" alt="${product.name}" width="50"></td>
+        product.image || "https://via.placeholder.com/60?text=No+Image"
+      }" alt="${product.name}" width="60" height="60"></td>
       <td>
         <button onclick="editProduct(${product.id})">Edit</button>
         <button onclick="deleteProduct(${product.id})">Delete</button>
@@ -162,6 +193,7 @@ async function fetchDoctors() {
   table.innerHTML = `
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Specialty</th>
         <th>Phone</th>
@@ -175,6 +207,7 @@ async function fetchDoctors() {
   doctors.forEach((doctor) => {
     const row = tbody.insertRow();
     row.innerHTML = `
+      <td>${doctor.id}</td>
       <td>${doctor.name}</td>
       <td>${doctor.specialty}</td>
       <td>${doctor.phone || "N/A"}</td>
@@ -190,14 +223,18 @@ async function fetchDoctors() {
 
 // Fetch Appointments (for medical.html)
 async function fetchAppointments() {
-  const { data: appointments, error } = await supabase.from("appointments")
-    .select(`
+  const { data: appointments, error } = await supabase
+    .from("appointments")
+    .select(
+      `
       id,
       appointment_date,
       reason,
       doctors(name),
       users(username)
-    `);
+    `
+    )
+    .order("appointment_date", { ascending: true }); // Order by date
   if (error) {
     console.error("Error fetching appointments:", error);
     return;
@@ -214,7 +251,8 @@ async function fetchAppointments() {
   table.innerHTML = `
     <thead>
       <tr>
-        <th>Date</th>
+        <th>ID</th>
+        <th>Date & Time</th>
         <th>Reason</th>
         <th>Doctor</th>
         <th>User</th>
@@ -227,7 +265,8 @@ async function fetchAppointments() {
   appointments.forEach((appointment) => {
     const row = tbody.insertRow();
     row.innerHTML = `
-      <td>${new Date(appointment.appointment_date).toLocaleString()}</td>
+      <td>${appointment.id}</td>
+      <td>${formatDateTime(appointment.appointment_date)}</td>
       <td>${appointment.reason}</td>
       <td>${appointment.doctors ? appointment.doctors.name : "N/A"}</td>
       <td>${appointment.users ? appointment.users.username : "N/A"}</td>
@@ -274,7 +313,7 @@ async function fetchUsers() {
       <td>${user.id}</td>
       <td>${user.username || "N/A"}</td>
       <td>${user.email || "N/A"}</td>
-      <td>${new Date(user.created_at).toLocaleDateString()}</td>
+      <td>${formatDate(user.created_at)}</td>
       <td>
         <button onclick="deleteUser(${user.id})">Delete</button>
       </td>
@@ -285,12 +324,21 @@ async function fetchUsers() {
 
 // Fetch Orders (for orders.html)
 async function fetchOrders() {
-  const { data: orders, error } = await supabase.from("orders").select(`
+  // This example assumes a simplified 'orders' table.
+  // For actual Dog Adoption vs Product orders, you might need
+  // more complex joins or separate tables/views in Supabase.
+  const { data: orders, error } = await supabase
+    .from("orders")
+    .select(
+      `
       id,
       order_date,
       total_amount,
+      order_type,
       users(username)
-    `);
+    `
+    )
+    .order("order_date", { ascending: false }); // Latest orders first
   if (error) {
     console.error("Error fetching orders:", error);
     return;
@@ -309,7 +357,8 @@ async function fetchOrders() {
       <tr>
         <th>Order ID</th>
         <th>Date</th>
-        <th>Total Amount</th>
+        <th>Type</th>
+        <th>Total Amount (€)</th>
         <th>User</th>
         <th>Actions</th>
       </tr>
@@ -321,8 +370,9 @@ async function fetchOrders() {
     const row = tbody.insertRow();
     row.innerHTML = `
       <td>${order.id}</td>
-      <td>${new Date(order.order_date).toLocaleDateString()}</td>
-      <td>€${order.total_amount.toFixed(2)}</td>
+      <td>${formatDate(order.order_date)}</td>
+      <td>${order.order_type || "N/A"}</td>
+      <td>€${order.total_amount ? order.total_amount.toFixed(2) : "0.00"}</td>
       <td>${order.users ? order.users.username : "N/A"}</td>
       <td>
         <button onclick="viewOrderDetails(${order.id})">View Details</button>
@@ -334,8 +384,8 @@ async function fetchOrders() {
 
 // --- Functions to add data (form submissions) ---
 
-// Add Dog
 document.addEventListener("DOMContentLoaded", () => {
+  // Add Dog Form
   const addDogForm = document.getElementById("add-dog-form");
   if (addDogForm) {
     addDogForm.addEventListener("submit", async (e) => {
@@ -345,9 +395,13 @@ document.addEventListener("DOMContentLoaded", () => {
       dogData.price = parseFloat(dogData.price);
       dogData.year = parseInt(dogData.year);
 
-      const { data, error } = await supabase.from("dogs").insert([dogData]);
+      const { data, error } = await supabase
+        .from("dogs")
+        .insert([dogData])
+        .select();
       if (error) {
         console.error("Error adding dog:", error);
+        alert(`Failed to add dog: ${error.message}`);
       } else {
         alert("Dog added successfully!");
         e.target.reset();
@@ -355,10 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
 
-// Add Product
-document.addEventListener("DOMContentLoaded", () => {
+  // Add Product Form
   const addProductForm = document.getElementById("add-product-form");
   if (addProductForm) {
     addProductForm.addEventListener("submit", async (e) => {
@@ -369,9 +421,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const { data, error } = await supabase
         .from("products")
-        .insert([productData]);
+        .insert([productData])
+        .select();
       if (error) {
         console.error("Error adding product:", error);
+        alert(`Failed to add product: ${error.message}`);
       } else {
         alert("Product added successfully!");
         e.target.reset();
@@ -379,10 +433,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
 
-// Add Doctor
-document.addEventListener("DOMContentLoaded", () => {
+  // Add Doctor Form
   const addDoctorForm = document.getElementById("add-doctor-form");
   if (addDoctorForm) {
     addDoctorForm.addEventListener("submit", async (e) => {
@@ -392,9 +444,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const { data, error } = await supabase
         .from("doctors")
-        .insert([doctorData]);
+        .insert([doctorData])
+        .select();
       if (error) {
         console.error("Error adding doctor:", error);
+        alert(`Failed to add doctor: ${error.message}`);
       } else {
         alert("Doctor added successfully!");
         e.target.reset();
@@ -404,11 +458,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// --- Functions for Edit/Delete ---
+// --- Functions for Edit/Delete (Placeholders) ---
 
 function editDog(id) {
-  alert(`Edit dog with ID: ${id}`);
-  // Implement actual edit logic here (e.g., populate a form with existing data)
+  alert(`Edit dog with ID: ${id}. (Implement full edit UI here)`);
+  // Example: Populate a form with data fetched for this ID, then save updates.
 }
 
 async function deleteDog(id) {
@@ -416,16 +470,16 @@ async function deleteDog(id) {
     const { error } = await supabase.from("dogs").delete().eq("id", id);
     if (error) {
       console.error("Error deleting dog:", error);
+      alert(`Failed to delete dog: ${error.message}`);
     } else {
       alert("Dog deleted successfully!");
-      fetchDogs(); // Refresh the list on dogs.html
+      fetchDogs(); // Refresh the list
     }
   }
 }
 
 function editProduct(id) {
-  alert(`Edit product with ID: ${id}`);
-  // Implement actual edit logic here
+  alert(`Edit product with ID: ${id}. (Implement full edit UI here)`);
 }
 
 async function deleteProduct(id) {
@@ -433,6 +487,7 @@ async function deleteProduct(id) {
     const { error } = await supabase.from("products").delete().eq("id", id);
     if (error) {
       console.error("Error deleting product:", error);
+      alert(`Failed to delete product: ${error.message}`);
     } else {
       alert("Product deleted successfully!");
       fetchProducts(); // Refresh the list
@@ -441,8 +496,7 @@ async function deleteProduct(id) {
 }
 
 function editDoctor(id) {
-  alert(`Edit doctor with ID: ${id}`);
-  // Implement actual edit logic here
+  alert(`Edit doctor with ID: ${id}. (Implement full edit UI here)`);
 }
 
 async function deleteDoctor(id) {
@@ -450,6 +504,7 @@ async function deleteDoctor(id) {
     const { error } = await supabase.from("doctors").delete().eq("id", id);
     if (error) {
       console.error("Error deleting doctor:", error);
+      alert(`Failed to delete doctor: ${error.message}`);
     } else {
       alert("Doctor deleted successfully!");
       fetchDoctors(); // Refresh the list
@@ -462,6 +517,7 @@ async function deleteAppointment(id) {
     const { error } = await supabase.from("appointments").delete().eq("id", id);
     if (error) {
       console.error("Error deleting appointment:", error);
+      alert(`Failed to delete appointment: ${error.message}`);
     } else {
       alert("Appointment deleted successfully!");
       fetchAppointments(); // Refresh the list
@@ -478,6 +534,7 @@ async function deleteUser(id) {
     const { error } = await supabase.from("users").delete().eq("id", id);
     if (error) {
       console.error("Error deleting user:", error);
+      alert(`Failed to delete user: ${error.message}`);
     } else {
       alert("User deleted successfully!");
       fetchUsers(); // Refresh the list
@@ -486,11 +543,13 @@ async function deleteUser(id) {
 }
 
 function viewOrderDetails(id) {
-  alert(`View details for order ID: ${id}`);
-  // Implement a modal or new page to show full order details, including line items.
+  alert(
+    `View details for order ID: ${id}. (Implement a modal or new page to show full order details.)`
+  );
 }
 
-// Initial data load when each page loads
+// --- Initial Data Load & Navigation ---
+
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop(); // Gets filename like 'home.html' or 'dogs.html'
 
@@ -504,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (currentNavLink) {
     currentNavLink.classList.add("active-nav");
   } else if (currentPage === "" || currentPage === "index.html") {
-    // Handle root URL or index.html
+    // Handle root URL or index.html if user opens that directly
     document
       .querySelector('nav a[href="home.html"]')
       .classList.add("active-nav");
@@ -525,5 +584,5 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (currentPage === "orders.html") {
     fetchOrders();
   }
-  // No specific fetch for account.html as it's static content
+  // No specific fetch for account.html as it's static content (for now)
 });

@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medical Management</title>
     <link rel="stylesheet" href="style.css" />
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -18,7 +16,7 @@
       <a href="medical.html" class="active-nav">🩺 Medical</a>
       <a href="users.html">👤 Users</a>
       <a href="orders.html">📦 Orders</a>
-      <a href="accounts.html">⚙️ Account</a>
+      <a href="account.html">⚙️ Account</a>
     </nav>
 
     <div class="main">
@@ -34,14 +32,14 @@
             <label
               >Specialty <input type="text" name="specialty" required
             /></label>
-            <label>Phone <input type="text" name="phone" /></label>
+            <label>Phone <input type="tel" name="phone" /></label>
             <label>Email <input type="email" name="email" /></label>
             <button type="submit">Add Doctor</button>
           </form>
           <div id="doctors-list"></div>
         </div>
         <div class="card">
-          <h2>Appointments</h2>
+          <h2>Upcoming Appointments</h2>
           <div id="appointments-list"></div>
         </div>
       </section>

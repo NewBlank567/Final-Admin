@@ -1,73 +1,209 @@
-* {
-  box-sizing: border-box;
-}
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background-color: #f4f4f4;
   display: flex;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  color: #333;
 }
-header {
-  background-color: #333;
-  color: white;
-  padding: 1em;
-  text-align: center;
-}
+
 nav {
-  background: #222;
+  width: 200px;
+  background-color: #2c3e50;
   color: white;
-  width: 220px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding-top: 2em;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
+
 nav a {
-  display: block;
   color: white;
-  padding: 1em;
   text-decoration: none;
+  padding: 15px 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
 nav a:hover {
-  background-color: #555;
+  background-color: #34495e;
 }
+
+nav a.active-nav {
+  background-color: #1abc9c;
+  font-weight: bold;
+}
+
 .main {
-  margin-left: 220px;
-  padding: 2em;
-  width: 100%;
+  flex-grow: 1;
+  padding: 20px;
 }
-section {
-  display: none;
-}
-section.active {
-  display: block;
-}
-.card {
-  background-color: white;
-  padding: 1em;
-  margin-bottom: 1em;
+
+header {
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
+
+h1 {
+  color: #2c3e50;
+  margin-top: 0;
+}
+
+section {
+  display: none; /* Hide all sections by default */
+}
+
+section.active {
+  display: block; /* Show active section */
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #34495e;
+  margin-top: 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for labels and inputs */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  grid-column: span 1; /* Default span for labels */
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="url"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="date"],
+form select,
+form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Ensure inputs take full width of their grid cell */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+form input[type="radio"] {
+    width: auto; /* Radio buttons don't need full width */
+    margin-right: 5px;
+}
+
+form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+form button[type="submit"] {
+  grid-column: span 2; /* Button spans both columns */
+  padding: 12px 20px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #27ae60;
+}
+
+/* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
+
+table th,
+table td {
+  border: 1px solid #eee;
+  padding: 12px 15px;
   text-align: left;
 }
-th {
-  background-color: #eee;
+
+table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #555;
 }
-form label {
-  display: block;
-  margin-top: 1em;
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
-form input, form select, form button {
-  width: 100%;
-  padding: 0.5em;
-  margin-top: 0.5em;
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+table img {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+table button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+}
+
+table button:hover {
+  opacity: 0.9;
+}
+
+table button:first-of-type {
+  background-color: #3498db;
+  color: white;
+}
+
+table button:first-of-type:hover {
+  background-color: #2980b9;
+}
+
+table button:last-of-type {
+  background-color: #e74c3c;
+  color: white;
+}
+
+table button:last-of-type:hover {
+  background-color: #c0392b;
+}
+
+/* Specific adjustments for dog/product image display in tables */
+#dogs-list img,
+#products-list img {
+  width: 60px;
+  height: 60px;
 }
