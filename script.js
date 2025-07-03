@@ -4,6 +4,9 @@ const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjA5OTAsImV4cCI6MjA2NzA5Njk5MH0.ATxRHHHv3gjTLecOaDDdJJ81k3z3UfuI0kBvvpBPbSUeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tdHl2cnJjdmtiY2RsaHB2Y252Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTUyMDk5MCwiZXhwIjoyMDY3MDk2OTkwfQ.Pav2Tk4Glp9GbHUt7WUgzSB9dapPDYVA5MzlYYkz86w";
 const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const supabaseUrl = "https://nmtyvrrcvkbcdlhpvcnv.supabase.co";
+const supabaseKey = String.fromEnvironment("SUPABASE_KEY");
+
 // --- Global Helper Functions ---
 
 // Function to format date for display
